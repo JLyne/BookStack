@@ -51,7 +51,7 @@ class LoginService
 
         // Authenticate on all session guards if a likely admin
         if ($user->can('users-manage') && $user->can('user-roles-manage')) {
-            $guards = ['standard', 'ldap', 'saml2', 'oidc'];
+            $guards = ['standard', 'ldap', 'saml2', 'oidc', 'remote'];
             foreach ($guards as $guard) {
                 auth($guard)->login($user);
             }
@@ -217,6 +217,6 @@ class LoginService
         $socialDrivers = $this->socialDriverManager->getActive();
         $authMethod = config('auth.method');
 
-        return count($socialDrivers) === 0 && in_array($authMethod, ['oidc', 'saml2']);
+        return count($socialDrivers) === 0 && in_array($authMethod, ['oidc', 'saml2', 'remote']);
     }
 }

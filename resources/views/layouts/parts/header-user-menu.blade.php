@@ -33,16 +33,32 @@
                 $logoutPath = match (config('auth.method')) {
                     'saml2' => '/saml2/logout',
                     'oidc' => '/oidc/logout',
+                    'remote' => env('REMOTE_AUTH_LOGOUT_URL', '/logout'),
                     default => '/logout',
-                }
+                };
+				$label = trans('auth.logout');
+				$csrf = csrf_field();
+
+				if(config('auth.method') === 'remote') {
+					$label = env('REMOTE_AUTH_LOGOUT_LABEL', trans('auth.logout'));
+					$csrf = '';
+				}
             @endphp
-            <form action="{{ url($logoutPath) }}" method="post">
-                {{ csrf_field() }}
-                <button class="icon-item" data-shortcut="logout">
+
+            @if(config('auth.method') === 'remote' && env('REMOTE_AUTH_LOGOUT_METHOD', 'post') === 'get')
+                <a href="{{ $logoutPath }}" class="icon-item" data-shortcut="logout">
                     @icon('logout')
-                    <div>{{ trans('auth.logout') }}</div>
-                </button>
-            </form>
+                    <div>{{ $label }}</div>
+                </a>
+            @else
+                <form action="{{ $logoutPath }}" method="post" data-shortcut="logout">
+                    {{ $csrf }}
+                    <button class="icon-item">
+                        @icon('logout')
+                        <div>{{ $label }}</div>
+                    </button>
+                </form>
+            @endif
         </li>
     </ul>
 </div>

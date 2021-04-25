@@ -10,7 +10,7 @@
 
 return [
 
-    // Options: standard, ldap, saml2, oidc
+    // Options: standard, ldap, saml2, oidc, remote
     'method' => env('AUTH_METHOD', 'standard'),
 
     // Automatically initiate login via external auth system if it's the sole auth method.
@@ -45,6 +45,10 @@ return [
         ],
         'oidc' => [
             'driver'   => 'async-external-session',
+            'provider' => 'external',
+        ],
+        'remote' => [
+            'driver' => 'remote-session',
             'provider' => 'external',
         ],
         'api' => [

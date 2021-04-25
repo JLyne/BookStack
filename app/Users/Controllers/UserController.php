@@ -77,7 +77,7 @@ class UserController extends Controller
 
         $authMethod = config('auth.method');
         $sendInvite = ($request->get('send_invite', 'false') === 'true');
-        $externalAuth = $authMethod === 'ldap' || $authMethod === 'saml2' || $authMethod === 'oidc';
+        $externalAuth = $authMethod === 'ldap' || $authMethod === 'saml2' || $authMethod === 'remote' || $authMethod === 'oidc';
         $passwordRequired = ($authMethod === 'standard' && !$sendInvite);
 
         $validationRules = [

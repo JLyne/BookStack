@@ -28,7 +28,8 @@ class Kernel extends HttpKernel
             \BookStack\Http\Middleware\ApplyCspRules::class,
             \BookStack\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \BookStack\Http\Middleware\StartSessionExtended::class,
+            \BookStack\Http\Middleware\RemoteAuth::class,
+	        \BookStack\Http\Middleware\StartSessionExtended::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \BookStack\Http\Middleware\VerifyCsrfToken::class,
             \BookStack\Http\Middleware\CheckEmailConfirmed::class,
@@ -38,6 +39,7 @@ class Kernel extends HttpKernel
         'api' => [
             \BookStack\Http\Middleware\ThrottleApiRequests::class,
             \BookStack\Http\Middleware\EncryptCookies::class,
+            \BookStack\Http\Middleware\RemoteAuth::class,
             \BookStack\Http\Middleware\StartSessionIfCookieExists::class,
             \BookStack\Http\Middleware\ApiAuthenticate::class,
             \BookStack\Http\Middleware\CheckEmailConfirmed::class,
