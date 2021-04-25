@@ -5,6 +5,7 @@ namespace BookStack\App\Providers;
 use BookStack\Access\ExternalBaseUserProvider;
 use BookStack\Access\Guards\AsyncExternalBaseSessionGuard;
 use BookStack\Access\Guards\LdapSessionGuard;
+use BookStack\Access\Guards\RemoteAuthSessionGuard;
 use BookStack\Access\LdapService;
 use BookStack\Access\LoginService;
 use BookStack\Access\RegistrationService;
@@ -50,6 +51,16 @@ class AuthServiceProvider extends ServiceProvider
                 $name,
                 $provider,
                 $app['session.store'],
+                $app[RegistrationService::class]
+            );
+        });
+
+        Auth::extend('remote-session', function ($app, $name, array $config) {
+            $provider = Auth::createUserProvider($config['provider']);
+            return new RemoteAuthSessionGuard(
+                $name,
+                $provider,
+                $this->app['session.store'],
                 $app[RegistrationService::class]
             );
         });

@@ -14,7 +14,13 @@
                 </div>
                 <div class="text-right">
                     @if(user()->isGuest())
-                        <a href="{{ url('/login') }}" class="button outline">{{ trans('auth.log_in') }}</a>
+                        @if(config('auth.method') === 'remote')
+	                        @if(env('REMOTE_AUTH_LOGIN_URL', false))
+	                            <a href="{{ str_replace('%url%', \URL::full(), env('REMOTE_AUTH_LOGIN_URL'))  }}">@icon('login'){{ env('REMOTE_AUTH_LOGIN_LABEL', trans('auth.log_in')) }}</a>
+	                        @endif
+	                    @else
+	                        <a href="{{ url('/login') }}" class="button outline">{{ trans('auth.log_in') }}</a>
+	                    @endif
                     @endif
                     <a href="{{ url('/') }}" class="button outline">{{ trans('errors.return_home') }}</a>
                 </div>
