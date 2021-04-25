@@ -51,6 +51,7 @@
             </form>
         </section>
 
+        @if(config('auth.method') !== 'remote')
         <section class="card content-wrap auto-height">
             <h2 class="list-heading">{{ trans('settings.users_mfa') }}</h2>
             <p class="text-small">{{ trans('settings.users_mfa_desc') }}</p>
@@ -106,6 +107,7 @@
                 </div>
             @endif
         </section>
+        @endif
 
         @if(count($activeSocialDrivers) > 0)
             <section class="card content-wrap auto-height">
